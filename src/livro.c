@@ -95,3 +95,57 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
     return NULL; 
   }
 }
+
+void destruir_livro(LIVROS *livro) {
+  if(livro != NULL) {
+    free(livro);
+  }
+} 
+
+int obter_id(const LIVROS *livro) {
+  if (livro == NULL) {
+    return -1;
+  }
+  
+  return livro->id;
+}
+
+int obter_ano(const LIVROS *livro) {
+  if (livro == NULL) {
+    return -1;
+  }
+  
+  return livro->ano;
+}
+
+const char *obter_titulo(const LIVROS *livro){
+  if (livro == NULL) {
+    return NULL;
+  }
+
+  return livro->titulo;
+}
+
+const char *obter_autor(const LIVROS *livro) {
+  if (livro == NULL) {
+    return NULL;
+  }
+
+  return livro->autor;
+}
+
+void exibir_livros(const LIVROS *livro) {
+  if (livro == NULL) {
+    return;
+  }
+
+  printf("%d\n", livro->id);
+
+  printf("%s\n", livro->titulo);
+
+  printf("%s\n", livro->autor);
+
+  printf("%d\n", livro->ano);
+
+}
+
