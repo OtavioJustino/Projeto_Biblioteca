@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "interface.h"
+#include "../include/interface.h"
 #include <limits.h>
 #include <errno.h>
 
@@ -27,44 +27,78 @@ void menu() {
 
 }
 
+int ler_inteiro (int *numero) {
+  long int temp;
+  char *p; 
+  char palavra[32];
+
+  if (fgets(palavra, sizeof(palavra), stdin) == NULL) {
+    return 0;
+  }
+  
+  if (strchr(palavra, '\n') == NULL) {
+    int auxC;
+    while((auxC = getchar()) != '\n' && auxC != EOF);
+    return 0;
+  }
+  
+  errno = 0;
+
+  temp = strtol(palavra, &p, 10); 
+  if (p == palavra) {
+    return 0;
+  } else if (*p != '\n' && *p != '\0') {
+    return 0;
+  }
+  
+  if (errno == ERANGE || temp < INT_MIN || temp > INT_MAX) {
+    return 0;
+  }
+  
+  *numero = (int) temp;
+  return 1;
+
+}
+
+int ler_texto(char *texto, size_t tamanho){
+
+  if (fgets(texto, tamanho, stdin) == NULL){
+    return 0;
+  }
+
+  if (strchr(texto, '\n') == NULL) {
+    int auxD;
+    while((auxD = getchar()) != '\n' && auxD != EOF);
+    return 0;
+  }
+
+  if (tamanho <= 0 && tamanho >  {
+    return 0;
+  }
+  
+}
+
+
 LIVROS *cadastrar_livro() {
   int id;
   char titulo[80]; 
   char autor[80];
   int ano;
-  char entrada[32];
-  char *p;
-  long int temp;
 
-
-  if (fgets(entrada, sizeof(entrada), stdin) == NULL) {
+  if (ler_inteiro(&id) != 1) {
     return NULL;
   }
 
-
-  errno = 0;
-
-  temp = strtol(entrada, &p, 10);
-  if (p == entrada) {
-    return NULL;
-  } else if (*p != '\n' && *p!='\O') {
+  if (id <= 0) {
     return NULL;
   }
 
-  
-  if (errno == ERANGE || temp < INT_MIN || temp > INT_MAX){
-    return NULL;
-  }
-  
-  id = (int) temp; 
-
-  if (strchr(entrada, '\n') == NULL) {
-    int auxC;
-    while ((auxC =getchar()) != '\n' && auxC != EOF);
+  if (ler_inteiro(&ano) != 1) {
     return NULL;
   }
 
-
+  if (ano < 1 || ano > 2026) {
+  return NULL; 
 }
 
 
