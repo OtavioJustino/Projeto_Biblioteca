@@ -39,11 +39,9 @@ void destruir_lista(LISTA *li) {
   ELEMENTO *auxP;
 
   auxI = li->inicio;
-  
-  
-
+    
   while (auxI != NULL) {
-    auxP = aux->proximo;
+    auxP = auxP->proximo;
     free(auxI);
     auxI = auxP;
   }
@@ -61,7 +59,6 @@ int inserir_fim(LISTA *li, int id) {
     return 0;
   }
 
-
   p->id = id;
   p->proximo = NULL;
 
@@ -75,3 +72,23 @@ int inserir_fim(LISTA *li, int id) {
     return 1;
   }
 }
+
+void exibir_lista(const LISTA *li) {
+  if (li == NULL) {
+    return;
+  } 
+  
+  ELEMENTO *aux;
+
+  aux = li->inicio;
+
+  if (aux == NULL) {
+    printf("lista vazia");
+  }
+
+  while (aux != NULL){
+    printf("%d ", aux->id);
+    aux = aux->proximo;
+  }
+}
+
