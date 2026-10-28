@@ -1,0 +1,77 @@
+#include "../include/lista.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct elemento ELEMENTO;
+
+struct elemento {
+  int id;
+  ELEMENTO *proximo;
+};
+
+
+struct lista {
+  ELEMENTO *inicio;
+  ELEMENTO *fim;
+};
+
+LISTA *criar_lista() {
+  LISTA *p = malloc(sizeof(LISTA));
+
+  if (p == NULL) {
+    return NULL;
+  }
+
+  p->inicio = NULL;
+  p->fim = NULL;
+
+  return p;
+
+};
+
+void destruir_lista(LISTA *li) {
+  if (li == NULL) {
+    return;
+  }
+  
+  ELEMENTO *auxI;
+  
+  ELEMENTO *auxP;
+
+  auxI = li->inicio;
+  
+  
+
+  while (auxI != NULL) {
+    auxP = aux->proximo;
+    free(auxI);
+    auxI = auxP;
+  }
+
+  free(li);
+}
+
+int inserir_fim(LISTA *li, int id) {
+  if (li == NULL) {
+    return 0;
+  }
+
+  ELEMENTO *p = malloc(sizeof(ELEMENTO));
+    if(p == NULL) {
+    return 0;
+  }
+
+
+  p->id = id;
+  p->proximo = NULL;
+
+  if (li->inicio != NULL) {
+    li->fim->proximo = p;
+    li->fim = p;
+    return 1;
+  } else {
+    li->inicio = p;
+    li->fim =p;
+    return 1;
+  }
+}
