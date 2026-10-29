@@ -34,16 +34,16 @@ void destruir_lista(LISTA *li) {
     return;
   }
   
-  ELEMENTO *auxI;
+  ELEMENTO *aux_1;
   
-  ELEMENTO *auxP;
+  ELEMENTO *aux_2;
 
-  auxI = li->inicio;
+  aux_1 = li->inicio;
     
-  while (auxI != NULL) {
-    auxP = auxP->proximo;
-    free(auxI);
-    auxI = auxP;
+  while (aux_1 != NULL) {
+    aux_2 = aux_1->proximo;
+    free(aux_1);
+    aux_1 = aux_2;
   }
 
   free(li);
