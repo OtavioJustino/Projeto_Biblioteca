@@ -93,6 +93,22 @@ int rmv_topo(PILHA *pi, ACAO *tipo, int *id1, int *id2) {
   
 }
 
+int ver_topo(const PILHA *pi, ACAO *tipo, int *id1, int *id2) {
+    if (pi == NULL || tipo == NULL || id1 == NULL || id2 == NULL) {
+        return 0;
+    }
+
+    if (pi->topo == NULL) {
+        return 0;
+    }
+
+    *tipo = pi->topo->tipo;
+    *id1 = pi->topo->id1;
+    *id2 = pi->topo->id2;
+
+    return 1;
+}
+
 void historico(const PILHA *pi) {
   if (pi == NULL || pi->topo == NULL) {
     return;
