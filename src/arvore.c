@@ -82,4 +82,83 @@ while (atual != NULL) {
 
 }
 
+LIVROS *busca_livro(const ARVORE *tree, int id){
+  if (tree == NULL || tree->raiz == NULL || id <= 0) {
+    return NULL;
+  }
 
+  ELEMENTO *aux;
+
+
+  aux = tree->raiz;
+
+  while (aux != NULL) {
+    int atual = obter_id(aux->livro);
+
+    if (id == atual) {
+      return aux->livro;
+    }
+
+    if (id > atual) {
+      aux = aux->direita;
+    } else {
+      aux = aux->esquerda;
+    }
+  }
+
+  return NULL;
+}
+
+int maior_id(const ARVORE *tree) {
+  if (tree == NULL || tree->raiz ==  NULL) {
+    return 0;
+  }
+
+  ELEMENTO *aux = tree->raiz;
+
+  while (aux->direita != NULL) {
+    aux = aux->direita;
+  }
+  
+  return obter_id(aux->livro);
+
+}
+
+int menor_id(const ARVORE *tree) {
+  if (tree == NULL || tree->raiz == NULL) {
+    return 0;
+  }
+
+  ELEMENTO *aux = tree->raiz;
+
+  while (aux->esquerda != NULL) {
+    aux = aux->esquerda;
+  }
+
+  return obter_id(aux->livro);
+
+}
+
+static void listar_recursivo(ELEMENTO *elemento){
+  if (elemento == NULL) {
+    return;
+  }
+
+  listar_recursivo(elemento->esquerda);
+  printf("%d", obter_id(elemento->livro));
+  printf("%s", obter_titulo(elemento->livro));
+  printf("%s", obter_autor(elemento->livro));
+  printf("%d", obter_ano(elemento->livro));
+  
+  listar_recursivo(elemento->direita);
+
+}
+
+void listar_ordem(ARVORE *tree) {
+  if (tree == NULL || tree->raiz == NULL) {
+    return;
+  }
+
+
+
+}
