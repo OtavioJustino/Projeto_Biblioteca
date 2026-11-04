@@ -1,0 +1,9 @@
+# Arquivos gerados pela compilação
+/build/
+*.o
+*.out
+
+# Arquivos temporários do LunarVim
+*.swp
+*.swo
+*~
