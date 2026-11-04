@@ -27,7 +27,7 @@ LISTA *criar_lista() {
 
   return p;
 
-};
+}
 
 void destruir_lista(LISTA *li) {
   if (li == NULL) {
