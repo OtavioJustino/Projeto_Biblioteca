@@ -64,7 +64,7 @@ void ordenar_por_titulo(const ARVORE *tree) {
     DADOS_L chave = p[i];
     int j = i - 1;
     while (j >= 0 && (strcmp(p[j].titulo, chave.titulo) > 0 || (strcmp(p[j].titulo, chave.titulo) == 0 && p[j].id > chave.id))) {
-      p[j] = p[j+1];
+      p[j+1] = p[j];
       j--;
     }
 
@@ -77,6 +77,8 @@ void ordenar_por_titulo(const ARVORE *tree) {
     printf("%d", p[i].id);
     printf("%s", p[i].titulo);
     printf("%s", p[i].autor);
-    printf("%s", p[i].autor);
+    printf("%d", p[i].ano);
   }
+  
+  free(p);
 }
