@@ -1,4 +1,5 @@
 #include "../include/livro.h" 
+#include <stddef.h>
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <string.h> 
@@ -32,7 +33,7 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
      * a variavel de controle se torna verdadeira
      * e a estrutura (for) é finalizada pois o titulo é valido*/
     if (strlen(titulo) > 0 && strlen(titulo) <=79) {  
-      int i;
+      size_t i;
       bool controle = false;
       for (i = 0; i < strlen(titulo); i++){
 
@@ -60,7 +61,7 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
     
     //valida o autor utilizando os mesmos criterios da validação de titulo
     if (strlen(autor) > 0 && strlen(autor) <=79){
-      int i; 
+      size_t i; 
       bool controle = false;
       for (i = 0; i < strlen(autor); i++) {
 
