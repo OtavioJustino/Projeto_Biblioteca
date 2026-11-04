@@ -1,6 +1,7 @@
 #include "../include/arvore.h"
 #include "../include/livro.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct elemento ELEMENTO;
 
@@ -26,6 +27,28 @@ ARVORE *cria_arvore() {
 
   return p;
 }
+
+static void destruir_recursiva(ELEMENTO *elemento) {
+  if (elemento == NULL) {
+    return ;
+  }
+  
+  destruir_recursiva(elemento->esquerda);
+  destruir_recursiva(elemento->direita);
+  free(elemento->livro);
+  free(elemento);
+  
+}
+
+void destruir_arvore(ARVORE *tree) {
+  if (tree == NULL) {
+    return;
+  }
+
+  destruir_recursiva(tree->raiz);
+  free(tree);
+}
+
 
 int inserir_livro(ARVORE *tree, LIVROS *livro) {
   if (tree == NULL || livro == NULL) {
@@ -145,10 +168,10 @@ static void listar_recursivo(ELEMENTO *elemento){
   }
 
   listar_recursivo(elemento->esquerda);
-  printf("%d", obter_id(elemento->livro));
-  printf("%s", obter_titulo(elemento->livro));
-  printf("%s", obter_autor(elemento->livro));
-  printf("%d", obter_ano(elemento->livro));
+  printf("%d\n", obter_id(elemento->livro));
+  printf("%s\n", obter_titulo(elemento->livro));
+  printf("%s\n", obter_autor(elemento->livro));
+  printf("%d\n", obter_ano(elemento->livro));
   
   listar_recursivo(elemento->direita);
 
@@ -159,6 +182,98 @@ void listar_ordem(ARVORE *tree) {
     return;
   }
 
+  listar_recursivo(tree->raiz);
+}
 
+int remover_livro(ARVORE *tree, int id) {
+  if (tree == NULL || id <= 0) {
+    return 0;
+  }
 
+  ELEMENTO *atual = tree->raiz;
+  ELEMENTO *pai = NULL;
+
+  while (atual != NULL) {
+
+    if (id == obter_id(atual->livro)) {
+      break;
+    } else {
+      pai = atual;
+
+      if (id > obter_id(atual->livro)){
+        atual = atual->direita;
+      } else {
+        atual = atual->esquerda;
+      }
+    }
+  }
+
+  if (atual == NULL) {
+    return 0;
+  }
+
+  if (atual->esquerda == NULL && atual->direita == NULL) {
+    if(pai == NULL) {
+      tree->raiz = NULL;
+    } else if(pai->esquerda == atual) 
+    {
+      pai->esquerda = NULL;
+    } else 
+    {
+      pai->direita = NULL;
+    }
+
+    free(atual->livro);
+    free(atual);
+    return 1;
+  }
+
+  ELEMENTO *filho = NULL;
+
+  if (atual->esquerda != NULL && atual->direita == NULL) {
+    filho = atual->esquerda;
+  } else if(atual->esquerda == NULL && atual->direita != NULL) {
+    filho =  atual->direita;
+  }
+
+  if(filho != NULL) {
+    if (pai == NULL ) {
+      tree->raiz = filho;
+    } else if (pai->esquerda == atual)
+    {
+      pai->esquerda = filho;
+    } else 
+    {
+      pai->direita = filho;
+    }
+    free(atual->livro);
+    free(atual);
+    return 1;
+  }
+
+  
+  if (atual->esquerda != NULL && atual->direita != NULL){
+    ELEMENTO *sucessor = atual->direita;
+    ELEMENTO *pai_sucessor = atual;
+    while (sucessor->esquerda != NULL) {
+      pai_sucessor = sucessor;
+      sucessor = sucessor->esquerda;
+    } 
+    
+    LIVROS *aux = atual->livro;
+    atual->livro = sucessor->livro;
+    sucessor->livro = aux;
+
+    if (pai_sucessor == atual) {
+      atual->direita = sucessor->direita;
+    } else {
+      pai_sucessor->esquerda = sucessor->direita;
+    }
+    
+    free(sucessor->livro);
+    free(sucessor);
+    return 1;
+  }
+
+  return 0;
 }
