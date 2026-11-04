@@ -1,5 +1,4 @@
 #include "../include/fila.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct elemento ELEMENTO;
@@ -28,7 +27,7 @@ FILA *criar_fila() {
 }
 
 
-void destruir_fila(LISTA *fi) { 
+void destruir_fila(FILA *fi) { 
   if (fi == NULL) {
     return;
   }
@@ -48,7 +47,7 @@ void destruir_fila(LISTA *fi) {
   free(fi);
 }
 
-int enfilerira(LIST *fi, int id) {
+int enfilerira(FILA *fi, int id) {
   if (fi == NULL) {
     return 0;
   }
@@ -67,7 +66,7 @@ int enfilerira(LIST *fi, int id) {
     return 1;
   } else {
     fi->inicio = p;
-    li->fim = p;
+    fi->fim = p;
     return 1;
   }
 }
@@ -77,7 +76,7 @@ int desinfileirar(FILA *fi, int *id) {
     return 0;
   }
 
-  ELEMENTO *aux_1;
+  ELEMENTO *aux;
 
   if (id == NULL) {
     return 0;
@@ -99,7 +98,7 @@ int desinfileirar(FILA *fi, int *id) {
   return 1;
 }
 
-int consultar_inicio(FILA *fi, int *id) {
+int consultar_inicio(const FILA *fi, int *id) {
   if (fi == NULL || id == NULL) {
     return 0;
   }
@@ -108,7 +107,7 @@ int consultar_inicio(FILA *fi, int *id) {
     return 0;
   }
 
-  *id = fi->incio->id;
+  *id = fi->inicio->id;
 
   return 1;
 }
