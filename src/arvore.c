@@ -277,3 +277,41 @@ int remover_livro(ARVORE *tree, int id) {
 
   return 0;
 }
+
+static int auxiliar_ordem(ELEMENTO *elemento) {
+  if (elemento == NULL) {
+    return 0;
+  }
+
+  return 1 + auxiliar_ordem(elemento->esquerda) + auxiliar_ordem(elemento->direita);
+
+
+}
+
+int contar_livros(const ARVORE *tree) {
+  if (tree == NULL) {
+    return 0;
+  }
+
+  return auxiliar_ordem(tree->raiz);
+}
+
+static void auxiliar_percorrer (ELEMENTO *elemento,  void (*visitar) (const LIVROS *, void *), void *contexto) {
+  if (elemento == NULL) {
+    return;
+  }
+  
+  auxiliar_percorrer(elemento->esquerda, visitar, contexto);
+
+  visitar(elemento->livro, contexto);
+
+  auxiliar_percorrer(elemento->direita, visitar, contexto); 
+}
+
+void percorrer_livros(const ARVORE *tree, void (*visitar)(const LIVROS *, void *), void *contexto) {
+  if (tree == NULL || tree->raiz == NULL || visitar == NULL) {
+    return;
+  }
+
+  auxiliar_percorrer(tree->raiz, visitar, contexto);
+}

@@ -20,4 +20,8 @@ void listar_ordem(ARVORE *tree);
 
 int remover_livro(ARVORE *tree, int id);
 
+int contar_livros(const ARVORE *tree);
+
+void percorrer_livros(const ARVORE *tree, void (*visitar) (const LIVROS*, void * ), void *contexto);
+
 #endif
