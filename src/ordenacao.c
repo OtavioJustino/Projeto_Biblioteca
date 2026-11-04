@@ -1,6 +1,7 @@
 #include "../include/ordenacao.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct dados_livro DADOS_L; 
 
@@ -25,8 +26,13 @@ static void copiar_livro(const LIVROS *livro, void *contexto) {
   
   CONTEXTO_COPY *dados = contexto;
 
-  
+  dados->vetor[dados->indice].id = obter_id(livro);
+  strcpy(dados->vetor[dados->indice].titulo, obter_titulo(livro));
+  strcpy(dados->vetor[dados->indice].autor, obter_autor(livro));
+  dados->vetor[dados->indice].ano = obter_ano(livro);
 
+  dados->indice++;
+  
 }
 
 
@@ -47,6 +53,30 @@ void ordenar_por_titulo(const ARVORE *tree) {
     return;
   }
 
-  
+  CONTEXTO_COPY dados;
 
+  dados.vetor = p;
+  dados.indice = 0;
+
+  percorrer_livros(tree, copiar_livro, &dados);
+
+  for (int i = 1; i < quantidade; i++) {
+    DADOS_L chave = p[i];
+    int j = i - 1;
+    while (j >= 0 && (strcmp(p[j].titulo, chave.titulo) > 0 || (strcmp(p[j].titulo, chave.titulo) == 0 && p[j].id > chave.id))) {
+      p[j] = p[j+1];
+      j--;
+    }
+
+    p[j+1] = chave;
+
+  }
+
+  for (int i = 0; i < quantidade; i++)
+  {
+    printf("%d", p[i].id);
+    printf("%s", p[i].titulo);
+    printf("%s", p[i].autor);
+    printf("%s", p[i].autor);
+  }
 }
