@@ -47,7 +47,7 @@ void destruir_fila(FILA *fi) {
   free(fi);
 }
 
-int enfilerira(FILA *fi, int id) {
+int enfileirar(FILA *fi, int id) {
   if (fi == NULL) {
     return 0;
   }
@@ -71,7 +71,7 @@ int enfilerira(FILA *fi, int id) {
   }
 }
 
-int desinfileirar(FILA *fi, int *id) {
+int desenfileirar(FILA *fi, int *id) {
   if (fi == NULL) {
     return 0;
   }
