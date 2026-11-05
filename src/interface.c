@@ -4,6 +4,7 @@
 #include "../include/interface.h"
 #include <limits.h>
 #include <errno.h>
+#include <ctype.h>
 
 void menu() {
 
@@ -11,14 +12,14 @@ void menu() {
   printf("              BIBLIOTECA ESTRUTURA DE DADOS            \n");
   printf("=======================================================\n");
   printf(" 1 - Cadastrar Livro\n");
-  printf(" 2 - Buscar Buscar Livros\n");
+  printf(" 2 - Buscar Livros\n");
   printf(" 3 - Remover Livros e vertices/aresta\n");
   printf(" 4 - Listar Livros\n");
   printf(" 5 - Ordenar Livros por Titulo\n");
   printf(" 6 - Adicionar Conexao\n");
   printf(" 7 - Remover Conexao\n");
   printf(" 8 - Consultar Conexao Direta\n");
-  printf(" 9 - Listar Alcacaveis\n");
+  printf(" 9 - Listar Alcancaveis\n");
   printf("10 - Verificar Caminho entre dois IDs\n");
   printf("11 - Consultar Historico\n");
   printf(" 0 - Encerrar\n");
@@ -28,6 +29,10 @@ void menu() {
 }
 
 int ler_inteiro (int *numero) {
+  if (numero == NULL) {
+    return 0;
+  }
+
   long int temp;
   char *p; 
   char palavra[32];
@@ -38,8 +43,13 @@ int ler_inteiro (int *numero) {
   
   if (strchr(palavra, '\n') == NULL) {
     int auxC;
-    while((auxC = getchar()) != '\n' && auxC != EOF);
-    return 0;
+    auxC = getchar();
+    if (auxC != '\n' && auxC != EOF){
+      while(auxC != '\n' && auxC != EOF){
+        auxC = getchar();
+      }
+      return 0;
+    }
   }
   
   errno = 0;
@@ -62,22 +72,47 @@ int ler_inteiro (int *numero) {
 
 int ler_texto(char *texto, size_t tamanho){
 
+  char *p;
+  if (texto == NULL) {
+    return 0;
+  }
+
+  if (tamanho < 2 || tamanho > 80) {
+    return 0;
+  }
+
   if (fgets(texto, tamanho, stdin) == NULL){
     return 0;
   }
 
   if (strchr(texto, '\n') == NULL) {
     int auxD;
-    while((auxD = getchar()) != '\n' && auxD != EOF);
-    return 0;
+    auxD = getchar();
+    if (auxD != '\n' && auxD != EOF) {
+      while(auxD != '\n' && auxD != EOF) {
+        auxD = getchar();
+      }
+      return 0;
+    }
+  } else {
+    p = strchr(texto, '\n');
+    *p = '\0';
   }
 
-  if (tamanho <= 0 && tamanho >  {
+  if (strlen(texto) == 0) {
     return 0;
   }
+  size_t j = strlen(texto);
+
+  for (int i = 0; i < j; i++) {
+    if (isspace((unsigned char)texto[i]) == 0) {
+      return 1;
+    }
+  }
+
+  return 0;
   
 }
-
 
 LIVROS *cadastrar_livro() {
   int id;
@@ -100,5 +135,3 @@ LIVROS *cadastrar_livro() {
   if (ano < 1 || ano > 2026) {
   return NULL; 
 }
-
-
