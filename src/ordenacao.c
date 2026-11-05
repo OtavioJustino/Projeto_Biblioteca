@@ -74,10 +74,10 @@ void ordenar_por_titulo(const ARVORE *tree) {
 
   for (int i = 0; i < quantidade; i++)
   {
-    printf("%d", p[i].id);
-    printf("%s", p[i].titulo);
-    printf("%s", p[i].autor);
-    printf("%d", p[i].ano);
+    printf("%d\n", p[i].id);
+    printf("%s\n", p[i].titulo);
+    printf("%s\n", p[i].autor);
+    printf("%d\n", p[i].ano);
   }
   
   free(p);
