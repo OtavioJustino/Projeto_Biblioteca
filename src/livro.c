@@ -32,7 +32,7 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
      * se houver pelo menos 1 (um) caractere diferente de espaço
      * a variavel de controle se torna verdadeira
      * e a estrutura (for) é finalizada pois o titulo é valido*/
-    if (strlen(titulo) > 0 && strlen(titulo) <=79) {  
+    if (titulo != NULL && strlen(titulo) > 0 && strlen(titulo) <=79) {  
       size_t i;
       bool controle = false;
       for (i = 0; i < strlen(titulo); i++){
@@ -60,7 +60,7 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
     }
     
     //valida o autor utilizando os mesmos criterios da validação de titulo
-    if (strlen(autor) > 0 && strlen(autor) <=79){
+    if (autor != NULL && strlen(autor) > 0 && strlen(autor) <=79){
       size_t i; 
       bool controle = false;
       for (i = 0; i < strlen(autor); i++) {
@@ -135,7 +135,7 @@ const char *obter_autor(const LIVROS *livro) {
   return livro->autor;
 }
 
-void exibir_livros(const LIVROS *livro) {
+void exibir_livro(const LIVROS *livro) {
   if (livro == NULL) {
     return;
   }

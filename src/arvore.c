@@ -72,6 +72,9 @@ int inserir_livro(ARVORE *tree, LIVROS *livro) {
   }
   
   int id = obter_id(livro);
+  if (id < 0) {
+    return 0;
+  }
   
   ELEMENTO *atual = tree->raiz;
 
