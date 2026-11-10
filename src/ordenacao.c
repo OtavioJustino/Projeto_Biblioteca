@@ -19,6 +19,7 @@ struct contexto_copy {
   int indice;
 };
 
+/* Copia os campos de um livro para a proxima posicao do vetor auxiliar. */
 static void copiar_livro(const LIVROS *livro, void *contexto) {
   if (livro == NULL || contexto == NULL) {
     return;
@@ -36,6 +37,7 @@ static void copiar_livro(const LIVROS *livro, void *contexto) {
 }
 
 
+/* Copia os livros da BST e aplica insertion sort por titulo, com desempate por ID. */
 void ordenar_por_titulo(const ARVORE *tree) {
   if (tree == NULL) {
     return;
@@ -58,8 +60,10 @@ void ordenar_por_titulo(const ARVORE *tree) {
   dados.vetor = p;
   dados.indice = 0;
 
+  /* Preenche o vetor sem modificar a estrutura original da BST. */
   percorrer_livros(tree, copiar_livro, &dados);
 
+  /* Desloca os elementos maiores para inserir a chave na posicao correta. */
   for (int i = 1; i < quantidade; i++) {
     DADOS_L chave = p[i];
     int j = i - 1;
@@ -80,5 +84,6 @@ void ordenar_por_titulo(const ARVORE *tree) {
     printf("Ano:    %d\n\n", p[i].ano);
   }
   
+  /* Libera a memoria temporaria usada na ordenacao. */
   free(p);
 }

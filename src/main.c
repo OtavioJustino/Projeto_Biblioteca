@@ -7,6 +7,7 @@
 #include "../include/ordenacao.h"
 #include "../include/pilha.h"
 
+/* Limpa o terminal conforme o sistema operacional. */
 static void limpar_tela(void) {
   #ifdef _WIN32
   system("cls");
@@ -15,6 +16,7 @@ static void limpar_tela(void) {
   #endif
 }
 
+/* Aguarda o ENTER para permitir a leitura do resultado antes de voltar ao menu. */
 static void aguardar_enter(void) {
   int caractere;
   printf("\nPressione ENTER para voltar ao menu...");
@@ -22,20 +24,24 @@ static void aguardar_enter(void) {
   while ((caractere = getchar()) != '\n' && caractere != EOF) { }
 }
 
+/* Solicita e valida um ID inteiro positivo. */
 static int ler_id(const char *mensagem, int *id) {
   printf("%s", mensagem);
   return ler_inteiro(id) && *id > 0;
 }
 
+/* Inicializa as estruturas e controla as operacoes do menu principal. */
 int main(void) {
   ARVORE *arvore = cria_arvore();
   GRAFO *grafo = criar_grafo();
   LISTA *lista = criar_lista();
   PILHA *pilha = criar_pilha();
 
+  /* Se alguma inicializacao falhar, libera as estruturas ja criadas. */
   if (arvore == NULL || grafo == NULL || lista == NULL || pilha == NULL) {
     puts("Erro ao inicializar as estruturas.");
-    destruir_pilha(pilha);
+    /* Libera as estruturas antes de encerrar o programa. */
+  destruir_pilha(pilha);
     destruir_lista(lista);
     destruir_grafo(grafo);
     destruir_arvore(arvore);
@@ -57,6 +63,7 @@ int main(void) {
     limpar_tela();
     int id1, id2;
     switch (opcao) {
+  /* O cadastro atualiza lista, grafo e BST; em caso de falha, desfaz etapas anteriores. */
       case 1: {
         LIVROS *livro = cadastrar_livro();
         if (livro == NULL) {
@@ -102,6 +109,7 @@ int main(void) {
         else exibir_livro(livro);
         break;
       }
+  /* A remocao retira o livro e as referencias correspondentes nas outras estruturas. */
       case 3:
         if (!ler_id("ID do livro: ", &id1)) {
           puts("ID invalido.");

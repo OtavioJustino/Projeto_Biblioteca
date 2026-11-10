@@ -15,6 +15,7 @@ struct lista {
   ELEMENTO *fim;
 };
 
+/* Aloca uma lista vazia, inicializando inicio e fim com NULL. */
 LISTA *criar_lista() {
   LISTA *p = malloc(sizeof(LISTA));
 
@@ -29,6 +30,7 @@ LISTA *criar_lista() {
 
 }
 
+/* Libera todos os elementos encadeados e a estrutura da lista. */
 void destruir_lista(LISTA *li) {
   if (li == NULL) {
     return;
@@ -40,6 +42,7 @@ void destruir_lista(LISTA *li) {
 
   aux_1 = li->inicio;
     
+  /* Guarda o proximo elemento antes de liberar o atual. */
   while (aux_1 != NULL) {
     aux_2 = aux_1->proximo;
     free(aux_1);
@@ -49,6 +52,7 @@ void destruir_lista(LISTA *li) {
   free(li);
 }
 
+/* Adiciona um ID no final, atualizando o ultimo elemento. */
 int inserir_fim(LISTA *li, int id) {
   if (li == NULL) {
     return 0;
@@ -62,6 +66,7 @@ int inserir_fim(LISTA *li, int id) {
   p->id = id;
   p->proximo = NULL;
 
+  /* Na lista nao vazia, conecta o novo elemento ao fim atual. */
   if (li->inicio != NULL) {
     li->fim->proximo = p;
     li->fim = p;
@@ -73,6 +78,7 @@ int inserir_fim(LISTA *li, int id) {
   }
 }
 
+/* Percorre e imprime os IDs do inicio ate o fim. */
 void exibir_lista(const LISTA *li) {
   if (li == NULL) {
     return;
@@ -93,6 +99,7 @@ void exibir_lista(const LISTA *li) {
 }
 
 
+/* Localiza e remove o ID, ajustando os ponteiros de inicio, fim e anterior. */
 int remover_lista(LISTA *li, int id) {
   if (li == NULL) return 0;
 
