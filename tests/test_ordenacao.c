@@ -41,12 +41,12 @@ int main(void) {
     assert(arvore != NULL);
     verificar_saida(arvore, "");
     adicionar(arvore, 10, "Zeta");
-    verificar_saida(arvore, "10\nZeta\nAutor\n2020\n");
+    verificar_saida(arvore, "ID:     10\nTitulo: Zeta\nAutor:  Autor\nAno:    2020\n\n");
     adicionar(arvore, 5, "Alfa");
     adicionar(arvore, 20, "Alfa");
     adicionar(arvore, 15, "Beta");
     /* Verifica a ordem e o formato atual, com campos em linhas separadas. */
-    verificar_saida(arvore, "5\nAlfa\nAutor\n2020\n20\nAlfa\nAutor\n2020\n15\nBeta\nAutor\n2020\n10\nZeta\nAutor\n2020\n");
+    verificar_saida(arvore, "ID:     5\nTitulo: Alfa\nAutor:  Autor\nAno:    2020\n\nID:     20\nTitulo: Alfa\nAutor:  Autor\nAno:    2020\n\nID:     15\nTitulo: Beta\nAutor:  Autor\nAno:    2020\n\nID:     10\nTitulo: Zeta\nAutor:  Autor\nAno:    2020\n\n");
     assert(contar_livros(arvore) == 4); /* Ordenar nao altera a BST. */
     assert(obter_id(busca_livro(arvore, 10)) == 10);
     destruir_arvore(arvore);
