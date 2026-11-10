@@ -2,56 +2,48 @@
 
 ## English
 
-### Execution
-Run the following command from the repository root:
+### Running the tests
+From the repository root, with GCC, GNU Make, and Linux/WSL:
 
 ```sh
 make test
-```
-
-To clean generated binaries:
-
-```sh
 make clean
 ```
 
-The tests use C `assert` statements and compile with GCC. The sorting test captures standard output using POSIX functions, so Linux/WSL is recommended.
+The suites use C `assert` statements. The sorting test captures standard output using POSIX functions (`dup`, `dup2`, and `fileno`); the supplied test Makefile targets a Unix-like environment.
 
 ### Test suites
-| Test | Modules |
+| Executable | Coverage |
 | --- | --- |
-| `test_estruturas` | Book, BST, linked list, stack |
-| `test_fila` | Queue |
-| `test_ordenacao` | Sorting by title and ID |
+| `test_estruturas` | Book validation, BST insertion/search/removal/traversal, linked list, stack |
+| `test_fila` | FIFO ordering, empty queue, null arguments |
+| `test_ordenacao` | Title ordering, ID tie-breaker, formatted output, unchanged BST |
+| `test_grafo` | Vertex/edge insertion and removal, duplicate and invalid IDs, undirected edges, BFS reachability and paths |
 
-### Test scenarios
-Tests exercise creation, insertion, lookup, removal, ordering, empty structures, and invalid arguments, depending on the module.
+### Scope
+The graph suite checks the return values of reachable-ID listing, but does not compare the printed list of IDs. These are automated module tests; they do not simulate interactive input through the complete menu. Allocation-failure scenarios are not injected.
 
 ---
 
 ## Português
 
-### Execução
-Execute o comando abaixo na raiz do repositório:
+### Executando os testes
+Na raiz do repositório, com GCC, GNU Make e Linux/WSL:
 
 ```sh
 make test
-```
-
-Para limpar os binários gerados:
-
-```sh
 make clean
 ```
 
-Os testes utilizam `assert` em C e são compilados com GCC. O teste de ordenação captura a saída padrão utilizando funções POSIX; por isso, recomenda-se Linux/WSL.
+Os testes utilizam `assert` em C. O teste de ordenação captura a saída padrão usando funções POSIX (`dup`, `dup2` e `fileno`); o Makefile de testes fornecido é destinado a ambientes semelhantes ao Unix.
 
 ### Conjuntos de testes
-| Teste | Módulos |
+| Executável | Cobertura |
 | --- | --- |
-| `test_estruturas` | Livro, BST, lista encadeada, pilha |
-| `test_fila` | Fila |
-| `test_ordenacao` | Ordenação por título e ID |
+| `test_estruturas` | Validação de livros, inserção/busca/remoção/percurso da BST, lista e pilha |
+| `test_fila` | Ordem FIFO, fila vazia e argumentos nulos |
+| `test_ordenacao` | Ordenação por título, desempate por ID, formato de saída e preservação da BST |
+| `test_grafo` | Inserção e remoção de vértices e arestas, IDs duplicados e inválidos, conexões não direcionadas, alcançabilidade e caminhos com BFS |
 
-### Cenários de teste
-Os testes verificam criação, inserção, busca, remoção, ordenação, estruturas vazias e argumentos inválidos, conforme o módulo.
+### Escopo
+O teste do grafo verifica os valores de retorno da listagem de alcançáveis, mas não compara os IDs impressos. São testes automatizados dos módulos; não simulam a entrada interativa pelo menu completo. Não são simuladas falhas de alocação de memória.
