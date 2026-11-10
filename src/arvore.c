@@ -73,6 +73,7 @@ int inserir_livro(ARVORE *tree, LIVROS *livro) {
   
   int id = obter_id(livro);
   if (id < 0) {
+    free(p);
     return 0;
   }
   
@@ -171,10 +172,8 @@ static void listar_recursivo(ELEMENTO *elemento){
   }
 
   listar_recursivo(elemento->esquerda);
-  printf("%d\n", obter_id(elemento->livro));
-  printf("%s\n", obter_titulo(elemento->livro));
-  printf("%s\n", obter_autor(elemento->livro));
-  printf("%d\n", obter_ano(elemento->livro));
+  exibir_livro(elemento->livro);
+  putchar('\n');
   
   listar_recursivo(elemento->direita);
 
