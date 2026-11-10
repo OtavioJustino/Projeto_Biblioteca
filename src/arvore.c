@@ -73,6 +73,7 @@ int inserir_livro(ARVORE *tree, LIVROS *livro) {
   
   int id = obter_id(livro);
   if (id < 0) {
+    free(p);
     return 0;
   }
   
