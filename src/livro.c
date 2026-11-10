@@ -140,13 +140,10 @@ void exibir_livro(const LIVROS *livro) {
     return;
   }
 
-  printf("%d\n", livro->id);
-
-  printf("%s\n", livro->titulo);
-
-  printf("%s\n", livro->autor);
-
-  printf("%d\n", livro->ano);
+  printf("ID:     %d\n", livro->id);
+  printf("Titulo: %s\n", livro->titulo);
+  printf("Autor:  %s\n", livro->autor);
+  printf("Ano:    %d\n", livro->ano);
 
 }
 
