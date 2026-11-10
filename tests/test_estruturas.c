@@ -5,7 +5,6 @@
 #include "../include/arvore.h"
 #include "../include/lista.h"
 #include "../include/pilha.h"
-#include "../include/fila.h"
 
 static LIVROS *novo(int id, const char *titulo) {
     return criar_livro(id, (char *)titulo, "Autor", 2020);
