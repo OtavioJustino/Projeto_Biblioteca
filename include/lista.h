@@ -9,6 +9,8 @@ void destruir_lista(LISTA *li);
 
 int inserir_fim(LISTA *li, int id);
 
+int remover_lista(LISTA *li, int id);
+
 void exibir_lista(const LISTA *li);
 
 
