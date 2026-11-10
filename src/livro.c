@@ -13,12 +13,14 @@ struct livros {
   int ano;
 };
 
+/* Aloca e inicializa um livro, validando ID, titulo, autor e ano.
+ * Retorna NULL quando algum dado e invalido ou a alocacao falha. */
 LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
-  LIVROS *p = malloc(sizeof(LIVROS));//alocaçao de memoria para um ponteiro LIVROS *
+  LIVROS *p = malloc(sizeof(LIVROS));
 
-  if (p != NULL) { //Verifica se foi possivel a alocação de memoria
+  if (p != NULL) {
 
-    //validação de id (funciona se id > 0) 
+    /* Um ID valido deve ser positivo. */
     if (id > 0 ) {
       p->id = id;
     } else {
@@ -26,12 +28,8 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
       return NULL;
     }
     
-    /*validação de titulo, caso o titulo seja > 0 e <= 79 
-     * inicia uma variavel de controle booleana 
-     * cria um laço de repetição para verificar casa por casa
-     * se houver pelo menos 1 (um) caractere diferente de espaço
-     * a variavel de controle se torna verdadeira
-     * e a estrutura (for) é finalizada pois o titulo é valido*/
+    /* Valida o tamanho do titulo e verifica se existe
+     * pelo menos um caractere diferente de espaco. */
     if (titulo != NULL && strlen(titulo) > 0 && strlen(titulo) <=79) {  
       size_t i;
       bool controle = false;
@@ -43,8 +41,7 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
         }
       }
       
-      /*verifica se o controle permanece falso
-      *se permanecer libera a memoria*/
+      /* Rejeita titulos compostos apenas por espacos em branco. */
       if (controle == false) {
         free(p);
         return NULL;
@@ -53,13 +50,12 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
       strcpy(p->titulo, titulo); 
     
     } else {
-      /*caso a primeira verificação de tamanho nao seja correspondida
-       * libera a memoria e retorna NULL*/
+      /* Libera a memoria se o titulo nao atender aos limites definidos. */
       free(p);
       return NULL;
     }
     
-    //valida o autor utilizando os mesmos criterios da validação de titulo
+    /* Aplica ao autor os mesmos criterios de validacao do titulo. */
     if (autor != NULL && strlen(autor) > 0 && strlen(autor) <=79){
       size_t i; 
       bool controle = false;
@@ -92,17 +88,19 @@ LIVROS *criar_livro(int id, char titulo[], char autor[], int ano) {
 
     return p;
 
-  } else { //caso a alocação de memoria falhe, retorna NULL
+  } else {
     return NULL; 
   }
 }
 
+/* Libera a memoria alocada para um livro, se o ponteiro for valido. */
 void destruir_livro(LIVROS *livro) {
   if(livro != NULL) {
     free(livro);
   }
 } 
 
+/* Retorna o ID do livro ou -1 se o ponteiro for NULL. */
 int obter_id(const LIVROS *livro) {
   if (livro == NULL) {
     return -1;
@@ -111,6 +109,7 @@ int obter_id(const LIVROS *livro) {
   return livro->id;
 }
 
+/* Retorna o ano do livro ou -1 se o ponteiro for NULL. */
 int obter_ano(const LIVROS *livro) {
   if (livro == NULL) {
     return -1;
@@ -119,6 +118,7 @@ int obter_ano(const LIVROS *livro) {
   return livro->ano;
 }
 
+/* Retorna o titulo do livro ou NULL se o ponteiro for invalido. */
 const char *obter_titulo(const LIVROS *livro){
   if (livro == NULL) {
     return NULL;
@@ -127,6 +127,7 @@ const char *obter_titulo(const LIVROS *livro){
   return livro->titulo;
 }
 
+/* Retorna o autor do livro ou NULL se o ponteiro for invalido. */
 const char *obter_autor(const LIVROS *livro) {
   if (livro == NULL) {
     return NULL;
@@ -135,6 +136,7 @@ const char *obter_autor(const LIVROS *livro) {
   return livro->autor;
 }
 
+/* Exibe os dados do livro sem modificar seu conteudo. */
 void exibir_livro(const LIVROS *livro) {
   if (livro == NULL) {
     return;
