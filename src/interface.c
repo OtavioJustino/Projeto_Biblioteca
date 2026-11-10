@@ -13,7 +13,7 @@ void menu() {
   printf("=======================================================\n");
   printf(" 1 - Cadastrar Livro\n");
   printf(" 2 - Buscar Livros\n");
-  printf(" 3 - Remover Livros e vertices/aresta\n");
+  printf(" 3 - Remover Livro\n");
   printf(" 4 - Listar Livros\n");
   printf(" 5 - Ordenar Livros por Titulo\n");
   printf(" 6 - Adicionar Conexao\n");
@@ -104,7 +104,7 @@ int ler_texto(char *texto, size_t tamanho){
   }
   size_t j = strlen(texto);
 
-  for (int i = 0; i < j; i++) {
+  for (size_t i = 0; i < j; i++) {
     if (isspace((unsigned char)texto[i]) == 0) {
       return 1;
     }
@@ -114,24 +114,21 @@ int ler_texto(char *texto, size_t tamanho){
   
 }
 
-LIVROS *cadastrar_livro() {
-  int id;
-  char titulo[80]; 
-  char autor[80];
-  int ano;
+LIVROS *cadastrar_livro(void) {
+  int id, ano;
+  char titulo[80], autor[80];
 
-  if (ler_inteiro(&id) != 1) {
-    return NULL;
-  }
+  printf("ID: ");
+  if (!ler_inteiro(&id) || id <= 0) return NULL;
 
-  if (id <= 0) {
-    return NULL;
-  }
+  printf("Ano: ");
+  if (!ler_inteiro(&ano) || ano < 1 || ano > 2026) return NULL;
 
-  if (ler_inteiro(&ano) != 1) {
-    return NULL;
-  }
+  printf("Titulo: ");
+  if (!ler_texto(titulo, sizeof titulo)) return NULL;
 
-  if (ano < 1 || ano > 2026) {
-  return NULL; 
+  printf("Autor: ");
+  if (!ler_texto(autor, sizeof autor)) return NULL;
+
+  return criar_livro(id, titulo, autor, ano);
 }
