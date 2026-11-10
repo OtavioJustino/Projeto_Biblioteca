@@ -16,6 +16,7 @@ struct arvore {
 };
 
 
+/* Cria a estrutura da BST com a raiz inicialmente vazia. */
 ARVORE *cria_arvore() {
   ARVORE *p = malloc(sizeof(ARVORE));
 
@@ -28,6 +29,7 @@ ARVORE *cria_arvore() {
   return p;
 }
 
+/* Libera recursivamente os filhos, o livro e o no atual. */
 static void destruir_recursiva(ELEMENTO *elemento) {
   if (elemento == NULL) {
     return ;
@@ -40,6 +42,7 @@ static void destruir_recursiva(ELEMENTO *elemento) {
   
 }
 
+/* Desaloca todos os nos e a estrutura de controle da arvore. */
 void destruir_arvore(ARVORE *tree) {
   if (tree == NULL) {
     return;
@@ -50,6 +53,7 @@ void destruir_arvore(ARVORE *tree) {
 }
 
 
+/* Insere o livro pela ordem dos IDs, rejeitando IDs duplicados. */
 int inserir_livro(ARVORE *tree, LIVROS *livro) {
   if (tree == NULL || livro == NULL) {
     return 0;
@@ -109,6 +113,7 @@ while (atual != NULL) {
 
 }
 
+/* Busca o livro comparando IDs e seguindo o filho esquerdo ou direito. */
 LIVROS *busca_livro(const ARVORE *tree, int id){
   if (tree == NULL || tree->raiz == NULL || id <= 0) {
     return NULL;
@@ -136,6 +141,7 @@ LIVROS *busca_livro(const ARVORE *tree, int id){
   return NULL;
 }
 
+/* Encontra o maior ID percorrendo os filhos a direita. */
 int maior_id(const ARVORE *tree) {
   if (tree == NULL || tree->raiz ==  NULL) {
     return 0;
@@ -151,6 +157,7 @@ int maior_id(const ARVORE *tree) {
 
 }
 
+/* Encontra o menor ID percorrendo os filhos a esquerda. */
 int menor_id(const ARVORE *tree) {
   if (tree == NULL || tree->raiz == NULL) {
     return 0;
@@ -166,6 +173,7 @@ int menor_id(const ARVORE *tree) {
 
 }
 
+/* Percorre a BST em ordem, exibindo os livros por ID crescente. */
 static void listar_recursivo(ELEMENTO *elemento){
   if (elemento == NULL) {
     return;
@@ -179,6 +187,7 @@ static void listar_recursivo(ELEMENTO *elemento){
 
 }
 
+/* Inicia a listagem em ordem a partir da raiz. */
 void listar_ordem(ARVORE *tree) {
   if (tree == NULL || tree->raiz == NULL) {
     return;
@@ -187,6 +196,7 @@ void listar_ordem(ARVORE *tree) {
   listar_recursivo(tree->raiz);
 }
 
+/* Remove um livro tratando os casos de folha, um filho e dois filhos. */
 int remover_livro(ARVORE *tree, int id) {
   if (tree == NULL || id <= 0) {
     return 0;
@@ -214,6 +224,7 @@ int remover_livro(ARVORE *tree, int id) {
     return 0;
   }
 
+  /* Caso 1: desliga e libera um no que nao possui filhos. */
   if (atual->esquerda == NULL && atual->direita == NULL) {
     if(pai == NULL) {
       tree->raiz = NULL;
@@ -238,6 +249,7 @@ int remover_livro(ARVORE *tree, int id) {
     filho =  atual->direita;
   }
 
+  /* Caso 2: substitui o no pelo seu unico filho. */
   if(filho != NULL) {
     if (pai == NULL ) {
       tree->raiz = filho;
@@ -254,6 +266,7 @@ int remover_livro(ARVORE *tree, int id) {
   }
 
   
+  /* Caso 3: encontra o sucessor em ordem na subarvore direita. */
   if (atual->esquerda != NULL && atual->direita != NULL){
     ELEMENTO *sucessor = atual->direita;
     ELEMENTO *pai_sucessor = atual;
@@ -280,6 +293,7 @@ int remover_livro(ARVORE *tree, int id) {
   return 0;
 }
 
+/* Conta recursivamente os nos das duas subarvores e o no atual. */
 static int auxiliar_ordem(ELEMENTO *elemento) {
   if (elemento == NULL) {
     return 0;
@@ -290,6 +304,7 @@ static int auxiliar_ordem(ELEMENTO *elemento) {
 
 }
 
+/* Retorna a quantidade de livros armazenados na BST. */
 int contar_livros(const ARVORE *tree) {
   if (tree == NULL) {
     return 0;
@@ -298,6 +313,7 @@ int contar_livros(const ARVORE *tree) {
   return auxiliar_ordem(tree->raiz);
 }
 
+/* Visita os livros em ordem e executa a funcao recebida em cada um. */
 static void auxiliar_percorrer (ELEMENTO *elemento,  void (*visitar) (const LIVROS *, void *), void *contexto) {
   if (elemento == NULL) {
     return;
@@ -310,6 +326,7 @@ static void auxiliar_percorrer (ELEMENTO *elemento,  void (*visitar) (const LIVR
   auxiliar_percorrer(elemento->direita, visitar, contexto); 
 }
 
+/* Percorre os livros usando uma funcao de visita fornecida pelo chamador. */
 void percorrer_livros(const ARVORE *tree, void (*visitar)(const LIVROS *, void *), void *contexto) {
   if (tree == NULL || tree->raiz == NULL || visitar == NULL) {
     return;

@@ -18,9 +18,11 @@ struct grafo {
   VERTICE *vertex;
 };
 
+/* Localiza um vertice pelo ID na lista encadeada do grafo. */
 static VERTICE *buscar_vertice(const GRAFO *grph, int id) {
   if (grph == NULL || id <= 0) return NULL;
 
+  /* Percorre os demais vertices para eliminar referencias ao vertice removido. */
   VERTICE *aux = grph->vertex;
   while (aux != NULL) {
     if (aux->id == id) return aux;
@@ -29,6 +31,7 @@ static VERTICE *buscar_vertice(const GRAFO *grph, int id) {
   return NULL;
 }
 
+/* Procura uma conexao com o ID informado na lista de adjacencias. */
 static ADJACENCIA *buscar_adjacencia(const VERTICE *vertice, int id) {
   ADJACENCIA *aux = vertice->adjacencias;
   while (aux != NULL) {
@@ -38,6 +41,7 @@ static ADJACENCIA *buscar_adjacencia(const VERTICE *vertice, int id) {
   return NULL;
 }
 
+/* Libera todos os registros de uma lista de adjacencias. */
 static void liberar_adjacencias(ADJACENCIA *adj) {
   while (adj != NULL) {
     ADJACENCIA *proximo = adj->proximo;
@@ -46,6 +50,7 @@ static void liberar_adjacencias(ADJACENCIA *adj) {
   }
 }
 
+/* Remove a adjacencia indicada e religa os elementos restantes. */
 static int remover_adjacencia(VERTICE *vertice, int id) {
   ADJACENCIA *atual = vertice->adjacencias;
   ADJACENCIA *anterior = NULL;
@@ -63,6 +68,7 @@ static int remover_adjacencia(VERTICE *vertice, int id) {
   return 1;
 }
 
+/* Aloca e inicializa um grafo sem vertices. */
 GRAFO *criar_grafo(void) {
   GRAFO *p = malloc(sizeof(GRAFO));
   if (p == NULL) return NULL;
@@ -71,6 +77,7 @@ GRAFO *criar_grafo(void) {
   return p;
 }
 
+/* Libera as adjacencias, os vertices e a estrutura do grafo. */
 void destruir_grafo(GRAFO *grph) {
   if (grph == NULL) return;
 
@@ -84,6 +91,7 @@ void destruir_grafo(GRAFO *grph) {
   free(grph);
 }
 
+/* Adiciona um vertice valido, impedindo IDs repetidos. */
 int add_vertice(GRAFO *grph, int id) {
   if (grph == NULL || id <= 0 || buscar_vertice(grph, id) != NULL) return 0;
 
@@ -97,6 +105,7 @@ int add_vertice(GRAFO *grph, int id) {
   return 1;
 }
 
+/* Remove um vertice e todas as conexoes que apontam para ele. */
 int rmv_vertice(GRAFO *grph, int id) {
   if (grph == NULL || id <= 0) return 0;
 
@@ -122,6 +131,7 @@ int rmv_vertice(GRAFO *grph, int id) {
   return 1;
 }
 
+/* Verifica se dois vertices possuem uma conexao direta. */
 int conexao_direta(const GRAFO *grph, int id1, int id2) {
   VERTICE *a = buscar_vertice(grph, id1);
   VERTICE *b = buscar_vertice(grph, id2);
@@ -129,6 +139,7 @@ int conexao_direta(const GRAFO *grph, int id1, int id2) {
   return buscar_adjacencia(a, id2) != NULL;
 }
 
+/* Cria uma aresta nao direcionada, com uma adjacencia em cada vertice. */
 int add_conexao(GRAFO *grph, int id1, int id2) {
   if (id1 == id2) return 0;
 
@@ -136,6 +147,7 @@ int add_conexao(GRAFO *grph, int id1, int id2) {
   VERTICE *b = buscar_vertice(grph, id2);
   if (a == NULL || b == NULL || buscar_adjacencia(a, id2) != NULL) return 0;
 
+  /* Reserva os dois registros antes de inserir a conexao nos dois sentidos. */
   ADJACENCIA *ab = malloc(sizeof(ADJACENCIA));
   if (ab == NULL) return 0;
   ADJACENCIA *ba = malloc(sizeof(ADJACENCIA));
@@ -153,6 +165,7 @@ int add_conexao(GRAFO *grph, int id1, int id2) {
   return 1;
 }
 
+/* Remove as duas adjacencias que representam uma aresta nao direcionada. */
 int rmv_conexao(GRAFO *grph, int id1, int id2) {
   if (id1 == id2) return 0;
 
@@ -166,6 +179,7 @@ int rmv_conexao(GRAFO *grph, int id1, int id2) {
 }
 
 /* Os IDs nao precisam ser sequenciais. */
+/* Encontra o indice de um ID no vetor auxiliar, pois os IDs nao sao sequenciais. */
 static int indice_vertice(VERTICE **vertices, int quantidade, int id) {
   for (int i = 0; i < quantidade; i++) {
     if (vertices[i]->id == id) return i;
@@ -173,6 +187,7 @@ static int indice_vertice(VERTICE **vertices, int quantidade, int id) {
   return -1;
 }
 
+/* Realiza busca em largura usando fila e marcacao de visitados; lista alcancaveis ou procura um destino. */
 static int percorrer_bfs(const GRAFO *grph, int origem, int destino, int listar) {
   if (buscar_vertice(grph, origem) == NULL) return 0;
   if (!listar && buscar_vertice(grph, destino) == NULL) return 0;
@@ -180,6 +195,7 @@ static int percorrer_bfs(const GRAFO *grph, int origem, int destino, int listar)
   int quantidade = 0;
   for (VERTICE *v = grph->vertex; v != NULL; v = v->prox_ver) quantidade++;
 
+  /* Cria o vetor de vertices e a marcacao dos ja visitados na busca. */
   VERTICE **vertices = malloc((size_t)quantidade * sizeof(VERTICE *));
   unsigned char *visitados = calloc((size_t)quantidade, sizeof(unsigned char));
   FILA *fila = criar_fila();
@@ -206,6 +222,7 @@ static int percorrer_bfs(const GRAFO *grph, int origem, int destino, int listar)
 
   int encontrado = 0;
   int atual;
+  /* Processa cada vertice e enfileira seus vizinhos ainda nao visitados. */
   while (desenfileirar(fila, &atual)) {
     if (!listar && atual == destino) {
       encontrado = 1;
@@ -234,10 +251,12 @@ static int percorrer_bfs(const GRAFO *grph, int origem, int destino, int listar)
   return listar ? 1 : encontrado;
 }
 
+/* Exibe os vertices alcancaveis a partir da origem por busca em largura. */
 int listar_alcancaveis(const GRAFO *grph, int origem) {
   return percorrer_bfs(grph, origem, 0, 1);
 }
 
+/* Verifica pela busca em largura se existe caminho ate o destino. */
 int verificar_caminho(const GRAFO *grph, int origem, int destino) {
   return percorrer_bfs(grph, origem, destino, 0);
 }

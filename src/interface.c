@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <ctype.h>
 
+/* Apresenta as opcoes disponiveis ao usuario. */
 void menu() {
 
   printf("=======================================================\n");
@@ -28,6 +29,7 @@ void menu() {
 
 }
 
+/* Le um inteiro com fgets e strtol, verificando caracteres invalidos e limites de int. */
 int ler_inteiro (int *numero) {
   if (numero == NULL) {
     return 0;
@@ -41,6 +43,7 @@ int ler_inteiro (int *numero) {
     return 0;
   }
   
+  /* Descarta o restante da linha se a entrada ultrapassar o buffer. */
   if (strchr(palavra, '\n') == NULL) {
     int auxC;
     auxC = getchar();
@@ -52,6 +55,7 @@ int ler_inteiro (int *numero) {
     }
   }
   
+  /* Zera errno antes da conversao para identificar estouro de intervalo. */
   errno = 0;
 
   temp = strtol(palavra, &p, 10); 
@@ -70,6 +74,7 @@ int ler_inteiro (int *numero) {
 
 }
 
+/* Le um texto com tamanho limitado e rejeita entradas vazias ou so com espacos. */
 int ler_texto(char *texto, size_t tamanho){
 
   char *p;
@@ -85,6 +90,7 @@ int ler_texto(char *texto, size_t tamanho){
     return 0;
   }
 
+  /* Descarta caracteres excedentes quando o texto ultrapassa o limite. */
   if (strchr(texto, '\n') == NULL) {
     int auxD;
     auxD = getchar();
@@ -114,6 +120,7 @@ int ler_texto(char *texto, size_t tamanho){
   
 }
 
+/* Solicita os campos, valida cada entrada e cria o livro; retorna NULL em caso de erro. */
 LIVROS *cadastrar_livro(void) {
   int id, ano;
   char titulo[80], autor[80];
