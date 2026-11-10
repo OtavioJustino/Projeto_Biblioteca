@@ -121,14 +121,14 @@ LIVROS *cadastrar_livro(void) {
   printf("ID: ");
   if (!ler_inteiro(&id) || id <= 0) return NULL;
 
-  printf("Ano: ");
-  if (!ler_inteiro(&ano) || ano < 1 || ano > 2026) return NULL;
-
   printf("Titulo: ");
   if (!ler_texto(titulo, sizeof titulo)) return NULL;
 
   printf("Autor: ");
   if (!ler_texto(autor, sizeof autor)) return NULL;
+
+  printf("Ano: ");
+  if (!ler_inteiro(&ano) || ano < 1 || ano > 2026) return NULL;
 
   return criar_livro(id, titulo, autor, ano);
 }
