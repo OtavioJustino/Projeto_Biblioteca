@@ -92,3 +92,22 @@ void exibir_lista(const LISTA *li) {
   }
 }
 
+
+int remover_lista(LISTA *li, int id) {
+  if (li == NULL) return 0;
+
+  ELEMENTO *atual = li->inicio;
+  ELEMENTO *anterior = NULL;
+  while (atual != NULL && atual->id != id) {
+    anterior = atual;
+    atual = atual->proximo;
+  }
+  if (atual == NULL) return 0;
+
+  if (anterior == NULL) li->inicio = atual->proximo;
+  else anterior->proximo = atual->proximo;
+
+  if (li->fim == atual) li->fim = anterior;
+  free(atual);
+  return 1;
+}
