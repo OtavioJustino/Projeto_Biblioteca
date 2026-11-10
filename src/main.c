@@ -1,14 +1,18 @@
 #include <stdio.h>
-#include "arvore.h"
-#include "grafo.h"
-#include "interface.h"
-#include "lista.h"
-#include "ordenacao.h"
-#include "pilha.h"
+#include <stdlib.h>
+#include "../include/arvore.h"
+#include "../include/grafo.h"
+#include "../include/interface.h"
+#include "../include/lista.h"
+#include "../include/ordenacao.h"
+#include "../include/pilha.h"
 
 static void limpar_tela(void) {
-  printf("\033[2J\033[H");
-  fflush(stdout);
+  #ifdef _WIN32
+  system("cls");
+  #else
+  system("clear");
+  #endif
 }
 
 static void aguardar_enter(void) {
@@ -126,33 +130,41 @@ int main(void) {
         else ordenar_por_titulo(arvore);
         break;
       case 6:
-      case 7:
-      case 8:
-      case 10:
         if (!ler_id("Primeiro ID: ", &id1) ||
             !ler_id("Segundo ID: ", &id2)) {
           puts("ID invalido.");
           break;
         }
-        if (opcao == 6) {
-          if (add_conexao(grafo, id1, id2)) {
-            if (!add_topo(pilha, ADD_CONEXAO, id1, id2))
-              puts("Aviso: nao foi possivel registrar a acao no historico.");
-            puts("Conexao adicionada.");
-          } else puts("Nao foi possivel adicionar a conexao.");
-        } else if (opcao == 7) {
-          if (rmv_conexao(grafo, id1, id2)) {
-            if (!add_topo(pilha, RMV_CONEXAO, id1, id2))
-              puts("Aviso: nao foi possivel registrar a acao no historico.");
-            puts("Conexao removida.");
-          } else puts("Conexao inexistente.");
-        } else if (opcao == 8) {
-          puts(conexao_direta(grafo, id1, id2)
-               ? "Existe conexao direta." : "Nao existe conexao direta.");
+        if (add_conexao(grafo, id1, id2)) {
+          if (!add_topo(pilha, ADD_CONEXAO, id1, id2))
+            puts("Aviso: nao foi possivel registrar a acao no historico.");
+          puts("Conexao adicionada.");
         } else {
-          puts(verificar_caminho(grafo, id1, id2)
-               ? "Existe um caminho." : "Nao existe caminho.");
+          puts("Nao foi possivel adicionar a conexao.");
         }
+        break;
+      case 7:
+        if (!ler_id("Primeiro ID: ", &id1) ||
+            !ler_id("Segundo ID: ", &id2)) {
+          puts("ID invalido.");
+          break;
+        }
+        if (rmv_conexao(grafo, id1, id2)) {
+          if (!add_topo(pilha, RMV_CONEXAO, id1, id2))
+            puts("Aviso: nao foi possivel registrar a acao no historico.");
+          puts("Conexao removida.");
+        } else {
+          puts("Conexao inexistente.");
+        }
+        break;
+      case 8:
+        if (!ler_id("Primeiro ID: ", &id1) ||
+            !ler_id("Segundo ID: ", &id2)) {
+          puts("ID invalido.");
+          break;
+        }
+        puts(conexao_direta(grafo, id1, id2)
+             ? "Existe conexao direta." : "Nao existe conexao direta.");
         break;
       case 9:
         if (!ler_id("ID de origem: ", &id1)) {
@@ -162,6 +174,15 @@ int main(void) {
         puts("IDs alcancaveis:");
         if (!listar_alcancaveis(grafo, id1))
           puts("Vertice nao encontrado ou falha ao percorrer o grafo.");
+        break;
+      case 10:
+        if (!ler_id("Primeiro ID: ", &id1) ||
+            !ler_id("Segundo ID: ", &id2)) {
+          puts("ID invalido.");
+          break;
+        }
+        puts(verificar_caminho(grafo, id1, id2)
+             ? "Existe um caminho." : "Nao existe caminho.");
         break;
       case 11:
         puts("Ultimas cinco modificacoes:");
