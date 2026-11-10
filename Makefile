@@ -5,13 +5,21 @@ BUILD_DIR := build
 TEST_BIN := $(BUILD_DIR)/test_estruturas
 FILA_BIN := $(BUILD_DIR)/test_fila
 ORDENACAO_BIN := $(BUILD_DIR)/test_ordenacao
+APP_BIN := $(BUILD_DIR)/biblioteca
+APP_SOURCES := src/main.c src/interface.c src/livro.c src/arvore.c src/lista.c src/pilha.c src/fila.c src/ordenacao.c src/grafo.c
 TEST_SOURCES := tests/test_estruturas.c src/livro.c src/arvore.c src/lista.c src/pilha.c
 
-.PHONY: all test clean check
-all: test
+.PHONY: all test clean check run
+all: $(APP_BIN)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+$(APP_BIN): $(APP_SOURCES) | $(BUILD_DIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(APP_SOURCES) -o $@
+
+run: $(APP_BIN)
+	./$(APP_BIN)
 
 $(TEST_BIN): $(TEST_SOURCES) | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(TEST_SOURCES) -o $@
