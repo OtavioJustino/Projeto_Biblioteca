@@ -8,15 +8,15 @@ The project implements opaque abstract data types (ADTs): public declarations ar
 ### Modules
 | Module | Responsibility |
 | --- | --- |
-| Book (`livro`) | Validate and store ID, title, author, and publication year |
-| BST (`arvore`) | Insert, search, remove, count, and traverse books by ID |
-| Linked list (`lista`) | Keep a linked sequence of registered book IDs |
-| Stack (`pilha`) | Record changes and display the five latest actions (LIFO) |
-| Queue (`fila`) | Provide FIFO operations for breadth-first search |
-| Graph (`grafo`) | Represent books as vertices and undirected connections as adjacency lists |
-| Sorting (`ordenacao`) | Display books ordered by title, breaking ties by ID |
-| Interface (`interface`) | Read validated input and present the menu |
-| Main (`main`) | Coordinate registration, removal, queries, history, and cleanup |
+| Book | Validate and store ID, title, author, and publication year |
+| BST  | Insert, search, remove, count, and traverse books by ID |
+| Linked list | Keep a linked sequence of registered book IDs |
+| Stack | Record changes and display the five latest actions (LIFO) |
+| Queue | Provide FIFO operations for breadth-first search |
+| Graph | Represent books as vertices and undirected connections as adjacency lists |
+| Sorting | Display books ordered by title, breaking ties by ID |
+| Interface | Read validated input and present the menu |
+| Main | Coordinate registration, removal, queries, history, and cleanup |
 
 ### Application flow
 On registration, the program validates the input, checks for an existing ID, adds the ID to the list and graph, and inserts the book into the BST. If an intermediate step fails, earlier insertions are rolled back. On removal, it removes the book from the BST, the corresponding graph vertex (including its edges), and the ID from the list. Successful changes are recorded in the stack when memory allocation permits.
@@ -36,15 +36,15 @@ O projeto utiliza tipos abstratos de dados (TADs) opacos: as declarações públ
 ### Módulos
 | Módulo | Responsabilidade |
 | --- | --- |
-| Livro (`livro`) | Validar e armazenar ID, título, autor e ano de publicação |
-| BST (`arvore`) | Inserir, buscar, remover, contar e percorrer livros por ID |
-| Lista (`lista`) | Manter uma sequência encadeada dos IDs cadastrados |
-| Pilha (`pilha`) | Registrar alterações e mostrar as cinco ações mais recentes (LIFO) |
-| Fila (`fila`) | Oferecer operações FIFO para a busca em largura |
-| Grafo (`grafo`) | Representar livros como vértices e conexões não direcionadas como listas de adjacência |
-| Ordenação (`ordenacao`) | Exibir livros por título, com desempate por ID |
-| Interface (`interface`) | Ler dados validados e apresentar o menu |
-| Principal (`main`) | Coordenar cadastro, remoção, consultas, histórico e liberação de memória |
+| Livro | Validar e armazenar ID, título, autor e ano de publicação |
+| BST   | Inserir, buscar, remover, contar e percorrer livros por ID |
+| Lista | Manter uma sequência encadeada dos IDs cadastrados |
+| Pilha | Registrar alterações e mostrar as cinco ações mais recentes (LIFO) |
+| Fila  | Oferecer operações FIFO para a busca em largura |
+| Grafo | Representar livros como vértices e conexões não direcionadas como listas de adjacência |
+| Ordenação | Exibir livros por título, com desempate por ID |
+| Interface | Ler dados validados e apresentar o menu |
+| Principal | Coordenar cadastro, remoção, consultas, histórico e liberação de memória |
 
 ### Fluxo do programa
 No cadastro, o programa valida os dados, verifica se o ID já existe, adiciona o ID à lista e ao grafo e insere o livro na BST. Se uma etapa intermediária falhar, as inserções anteriores são desfeitas. Na remoção, exclui o livro da BST, o vértice correspondente do grafo (inclusive suas arestas) e o ID da lista. As alterações bem-sucedidas são registradas na pilha quando a alocação de memória permite.
